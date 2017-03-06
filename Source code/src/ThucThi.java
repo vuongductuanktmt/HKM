@@ -1,7 +1,9 @@
-package Database.HKM;
+﻿package Database.HKM;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
+import java.util.Arrays;
 
 public class ThucThi implements Runnable { //Thực thi đa luồng
 	public String Website;
@@ -46,27 +48,13 @@ public class ThucThi implements Runnable { //Thực thi đa luồng
 	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 		System.out.println("Đợi lấy dữ liệu...");
 		System.out.println("Main thread running..");
-		ThucThi tt1 = new ThucThi("sendo");
-		ThucThi tt2 = new ThucThi("vatgia");
-		ThucThi tt3 = new ThucThi("tiki");
-		ThucThi tt4 = new ThucThi("lazada");
-		ThucThi tt5 = new ThucThi("adayroi");
-		ThucThi tt6 = new ThucThi("dienmayxanh");
-		ThucThi tt7 = new ThucThi("fptshop");
-		Thread t1 = new Thread(tt1);
-		Thread t2 = new Thread(tt2);
-		Thread t3 = new Thread(tt3);
-		Thread t4 = new Thread(tt4);
-		Thread t5 = new Thread(tt5);
-		Thread t6 = new Thread(tt6);
-		Thread t7 = new Thread(tt7);
-		t1.start();
-		t2.start();
-		t3.start();
-		t4.start();
-		t5.start();
-		t6.start();
-		t7.start();
+		Thread threads[] = { new Thread(new ThucThi("sendo")), new Thread(new ThucThi("tiki")),
+				new Thread(new ThucThi("vatgia")), new Thread(new ThucThi("lazada")),
+				new Thread(new ThucThi("adayroi")), new Thread(new ThucThi("dienmayxanh")),
+				new Thread(new ThucThi("fptshop")) };
+		for(int i = 0; i < Array.getLength(threads);  i++) {
+		    threads[i].start();
+		  }
 		System.out.println("Main thread stopped");
 	}
 }
