@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">HKM</string>
-    <string name="search">Tìm kiếm</string>
-    <string name="tim_tin_tuc">Tìm kiếm tin tức</string>
-    <string name="drawer_open">Mo menu</string>
-    <string name="drawer_close">Dong menu</string>
-</resources>
