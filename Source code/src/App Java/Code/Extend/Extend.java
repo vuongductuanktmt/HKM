@@ -2,12 +2,19 @@ package App.HKM.Extend;
 
 import java.awt.Cursor;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Random;
-
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import com.gargoylesoftware.htmlunit.javascript.host.dom.Document;
+import com.mongodb.Mongo;
+import com.mongodb.client.MongoDatabase;
+import Database.HKM.MongoDB;
 
 public class Extend {
 	String letters[] = "0123456789ABCDEF".split("");
@@ -55,31 +62,42 @@ public class Extend {
 	}
 
 	public boolean CheckInternet() throws IOException {
-		int timeout = 2000;
-		try {
-			InetAddress[] addresses = InetAddress.getAllByName("www.google.com");
-			for (InetAddress address : addresses) {
-				if (address.isReachable(timeout)) {
-					System.out.printf("%s is reachable%n", address);
-					return true;
-				} else
-					System.out.printf("%s could not be contacted%n", address);
-				return false;
+		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		boolean temp = false;
+		String[] hosttemps = { "lo" };
+		while (interfaces.hasMoreElements()) {
+
+			NetworkInterface networkInterface = interfaces.nextElement();
+
+			System.out.println("Network Interface Name : [" + networkInterface.getDisplayName() + "]");
+			for (String hosttemp : hosttemps) {
+				if (!(networkInterface.getDisplayName().trim().equals(hosttemp))) {
+					temp = networkInterface.isUp();
+				}
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("Is It connected? : [" + networkInterface.isUp() + "]");
+			for (InterfaceAddress i : networkInterface.getInterfaceAddresses()) {
+
+				System.out.println("Host Name : " + i.getAddress().getCanonicalHostName());
+
+				System.out.println("Host Address : " + i.getAddress().getHostAddress());
+
+			}
+			System.out.println("----------------------");
 		}
-		return false;
+		return temp;
 	}
-	public void ChangeTheme(String theme) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
-		switch(theme){
+
+	public void ChangeTheme(String theme) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+			UnsupportedLookAndFeelException {
+		switch (theme) {
 		case "METAL":
-			 javax.swing.plaf.metal.MetalLookAndFeel.setCurrentTheme(new javax.swing.plaf.metal.DefaultMetalTheme());
-			 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			javax.swing.plaf.metal.MetalLookAndFeel.setCurrentTheme(new javax.swing.plaf.metal.DefaultMetalTheme());
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			break;
 		case "FAST":
-		com.jtattoo.plaf.luna.LunaLookAndFeel.setTheme("Default");
-		UIManager.setLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel");
+			com.jtattoo.plaf.luna.LunaLookAndFeel.setTheme("Default");
+			UIManager.setLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel");
 			break;
 		case "SMART":
 			com.jtattoo.plaf.smart.SmartLookAndFeel.setTheme("Default");
@@ -98,7 +116,7 @@ public class Extend {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
 			break;
 		case "ALUMINIUM":
-			 com.jtattoo.plaf.aluminium.AluminiumLookAndFeel.setTheme("Default");
+			com.jtattoo.plaf.aluminium.AluminiumLookAndFeel.setTheme("Default");
 			UIManager.setLookAndFeel(" com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 			break;
 		case "MCWIN":
@@ -123,7 +141,21 @@ public class Extend {
 			break;
 		default:
 			break;
-		
+
 		}
+	}
+
+	public String MD5(String md5) {
+		try {
+			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+			byte[] array = md.digest(md5.getBytes());
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < array.length; ++i) {
+				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+			}
+			return sb.toString();
+		} catch (java.security.NoSuchAlgorithmException e) {
+		}
+		return null;
 	}
 }

@@ -171,7 +171,7 @@ public class Login {
 							try {
 								MongoDB data = new MongoDB("User");
 								if (data.CheckExistsRecord(
-										new Document("__User__", user).append("__Password__", password))) {
+										new Document("__User__", user).append("__Password__", extend.MD5(password)))) {
 									lblThngBo.setText("Đăng nhập thành công vui lòng đợi...");
 									lblThngBo.setForeground(new Color(51, 102, 153));
 									cache_Login = user;
@@ -219,7 +219,7 @@ public class Login {
 							try {
 								MongoDB data = new MongoDB("User");
 								if (data.CheckExistsRecord(
-										new Document("__User__", user).append("__Password__", password))) {
+										new Document("__User__", user).append("__Password__", extend.MD5(password)))) {
 									lblThngBo.setText("Đăng nhập thành công vui lòng đợi...");
 									cache_Login = user;
 									lblThngBo.setForeground(new Color(51, 102, 153));

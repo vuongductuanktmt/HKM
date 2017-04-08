@@ -198,6 +198,18 @@ public class main {
 		
 		JMenuItem mntmCategoryParents = new JMenuItem("Category Parents");
 		mntmCategoryParents.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Ok_20px_3.png")));
+		mntmCategoryParents.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					modelview.LoadTableProduct();
+					new TableData("Table Manage", modelview.columnNamesProducts, modelview.rows);
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		mnCategory.add(mntmCategoryParents);
 		
 		JMenuItem mntmCategoryChilds = new JMenuItem("Category Childs");

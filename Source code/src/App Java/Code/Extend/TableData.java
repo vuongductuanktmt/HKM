@@ -22,16 +22,17 @@ import javax.swing.table.*;
 import org.bson.Document;
 import App.HKM.Login;
 import Database.HKM.MongoDB;
+import net.codejava.swing.jtable.TableMouseListener;
 
 public class TableData extends JFrame {
 	private Object[] lastItem;
 	private AtomicInteger lastIndex = new AtomicInteger(-1);
-	private JTable table;
-	private DefaultTableModel tableModel; 
+	private TableModel tableModel; 
 	private JPopupMenu popupMenu;
 	private JMenuItem menuItemAdd;
 	private JMenuItem menuItemRemove;
 	private JMenuItem menuItemRemoveAll;
+	
 	public TableData(String name, String[] columnNames, Object[][] data, boolean check_tick) {
 		super(name);
 
@@ -145,70 +146,115 @@ public class TableData extends JFrame {
 
 			}
 		});
+		
 		// add listeners
 		// add listeners
 		// show application
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setLocation(32, 32);
 		setSize(1000, 500);
 		setVisible(true);
 	} // end CTor TableDemo
+	
 	public TableData(String name, String[] columnNames, Object[][] data) {
-		super(name);
-
 		// setup menu
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("File");
-		menu.setMnemonic('F');
-		JMenuItem menuItem = new JMenuItem("Exit");
-		menuItem.setMnemonic('x');
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				System.exit(0);
-			}
-		});
-		menu.add(menuItem);
-		menuBar.add(menu);
-		setJMenuBar(menuBar);
-		JPanel contentPanel = new JPanel(new BorderLayout());
-		contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));
-		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JTable myTable = new MyTable(new MyTableModel(columnNames, data));
-		myTable.setRowHeight(24);
-		myTable.setSelectionBackground(Color.orange);
-		myTable.setSelectionForeground(Color.black);
-		myTable.getSelectionModel().setSelectionInterval(2, 2);
-		TableColumn tableCol = myTable.getColumnModel().getColumn(2);
-		contentPanel.add(new JScrollPane(myTable), BorderLayout.CENTER);
-		this.setContentPane(contentPanel);
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-		myTable.getColumn("STT").setCellRenderer(tcr);
-		myTable.setColumnSelectionAllowed(true);
-		myTable.setRowSelectionAllowed(true);
-		lastItem = new Object[myTable.getColumnCount()];
-		// store last value of selected table item in an array.
-		myTable.getModel().addTableModelListener(new TableModelListener() {
+				JMenuBar menuBar = new JMenuBar();
+				JMenu menu = new JMenu("File");
+				menu.setMnemonic('F');
+				JMenuItem menuItem = new JMenuItem("Exit");
+				menuItem.setMnemonic('x');
+				menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK));
+				menuItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					}
+				});
+				menu.add(menuItem);
+				menuBar.add(menu);
+				setJMenuBar(menuBar);
 
-			public void tableChanged(TableModelEvent e) {
+				JPanel contentPanel = new JPanel(new BorderLayout());
+				contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 4, 4, 4));
+				this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+				JTable myTable = new MyTable(this.tableModel = new MyTableModel(columnNames, data));
+				/*myTable.addMouseListener( new MouseAdapter()
+				{
+					public void mousePressed( MouseEvent e )
+					{
+						// Left mouse click
+						if ( SwingUtilities.isLeftMouseButton( e ) )
+						{
+							// Do something
+						}
+						// Right mouse click
+						else if ( SwingUtilities.isRightMouseButton(e))
+						{
+							// get the coordinates of the mouse click
+							Point p = e.getPoint();
+				 
+							// get the row index that contains that coordinate
+							int rowNumber = myTable.rowAtPoint( p );
+				 
+							// Get the ListSelectionModel of the JTable
+							ListSelectionModel model = myTable.getSelectionModel();
+				 
+							// set the selected interval of rows. Using the "rowNumber"
+							// variable for the beginning and end selects only that one row.
+							model.setSelectionInterval( rowNumber, rowNumber );
+						}
+					}
+				});*/
+				popupMenu = new JPopupMenu();
+				menuItemAdd = new JMenuItem("Add New Row");
+				
+				popupMenu.add(menuItemAdd);
+				menuItemAdd.addActionListener(new ActionListener() {
+					 @Override
+					 public void actionPerformed(ActionEvent e) {
+					  // TODO Auto-generated method stub
+							lastIndex.set(myTable.getSelectedRow());
+							int row = lastIndex.get();
+					  
+					 }
+					  });
+				// sets the popup menu for the table
+				myTable.setComponentPopupMenu(popupMenu);
+				myTable.setRowHeight(24);
+				myTable.setSelectionBackground(Color.orange);
+				myTable.setSelectionForeground(Color.black);
+				myTable.getSelectionModel().setSelectionInterval(2, 2);
+				TableColumn tableCol = myTable.getColumnModel().getColumn(2);
+				contentPanel.add(new JScrollPane(myTable), BorderLayout.CENTER);
+				this.setContentPane(contentPanel);
 
-				lastIndex.set(myTable.getSelectedRow());
-				int row = lastIndex.get();
-				for (int i = 0; i < lastItem.length; i++) {
-					lastItem[i] = myTable.getValueAt(row, i);
-				}
-					myTable.isCellEditable(row, 2);
-			}
-		});
-		// add listeners
-		// add listeners
-		// show application
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLocation(32, 32);
-		setSize(1000, 500);
-		setVisible(true);
+				DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+				tcr.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				myTable.getColumn("STT").setCellRenderer(tcr);
+				myTable.getColumn("Current Price").setCellRenderer(tcr);
+				myTable.getColumn("Old Price").setCellRenderer(tcr);
+				myTable.getColumn("Date Insert").setCellRenderer(tcr);
+				myTable.getColumn("Status").setCellRenderer(tcr);
+				myTable.getColumn("STT").setMaxWidth(50);
+				myTable.getColumn("Delete").setMaxWidth(50);
+				myTable.getColumn("Title").setMinWidth(300);
+				myTable.getColumn("Date Insert").setMinWidth(150);
+				myTable.setColumnSelectionAllowed(true);
+				myTable.setRowSelectionAllowed(true);
+				lastItem = new Object[myTable.getColumnCount()];
+				
+				// store last value of selected table item in an array.
+				
+				// add listeners
+				// add listeners
+				// show application
+				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				setLocationRelativeTo(null);
+				setLocation(32, 32);
+				setSize(1000, 500);
+				setVisible(true);
 	} // end CTor TableDemo
+
 	// ---------------------------------------------------------------------------------------
 	public class MyTable extends JTable {
 		private Color evenBackColor = new Color(95, 158, 160);

@@ -24,7 +24,6 @@ public class ModelView {
 		DefaultListModel<Event> model_event = new DefaultListModel<>();
 		List<org.bson.Document> documents = new ArrayList<org.bson.Document>();
 		MongoDB data = new MongoDB("TableWebInfo");
-		data.ping();
 		documents = data.Pagination(new org.bson.Document("__DateInsert__", 1), "Event", Search, pageNumer__Event,
 				Login.page_size);
 		for (org.bson.Document document : documents) {
@@ -42,7 +41,6 @@ public class ModelView {
 			List<org.bson.Document> documents = new ArrayList<org.bson.Document>();
 			MongoDB data = new MongoDB("TableWebInfo");
 			MongoDB data_category_child = new MongoDB("CategoryChild");
-			data.ping();
 			int pageNumer = (Status.equals("Selling")) ? pageNumer__Selling : pageNumer__Promotion;
 			documents = data.Pagination(new org.bson.Document("__DateInsert__", 1), Status, Search, pageNumer,
 					Login.page_size);

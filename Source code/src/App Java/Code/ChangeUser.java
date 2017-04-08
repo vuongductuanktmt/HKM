@@ -24,6 +24,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoCursor;
 
+import App.HKM.Extend.Extend;
 import App.HKM.Extend.Message;
 import App.HKM.Extend.TextBubbleBorder;
 import Database.HKM.MongoDB;
@@ -69,6 +70,8 @@ public class ChangeUser {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Extend extend = new Extend();
+		
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setAlwaysOnTop(true);
@@ -160,7 +163,7 @@ public class ChangeUser {
 						try {
 							MongoDB data = new MongoDB("User");
 							if (data.CheckExistsRecord(
-									new Document("__User__", Login.cache_Login).append("__Password__", password_ht))) {
+									new Document("__User__", Login.cache_Login).append("__Password__", extend.MD5(password_ht)))) {
 								if (this.password_new.length < 8 || this.password_renew.length < 8) {
 									errors = "Độ dài mật khẩu phải lớn hơn hoặc bằng 8 kí tự.";
 									txtpassword_new.setBorder(new TextBubbleBorder(Color.RED, 2, 4, 0));
@@ -174,7 +177,7 @@ public class ChangeUser {
 									} else {
 										Document filter = new Document("__User__", Login.cache_Login);
 										Document newValue = new Document("__Password__",
-												String.valueOf(this.password_new));
+												extend.MD5(String.valueOf(this.password_new)));
 										data.UpdateRecord(filter, newValue);
 										errors = "Đổi mật khẩu thành công.";
 										frame.setAlwaysOnTop(false);
@@ -221,7 +224,7 @@ public class ChangeUser {
 					try {
 						MongoDB data = new MongoDB("User");
 						if (data.CheckExistsRecord(
-								new Document("__User__", Login.cache_Login).append("__Password__", password_ht))) {
+								new Document("__User__", Login.cache_Login).append("__Password__", extend.MD5(password_ht)))) {
 							if (this.password_new.length < 8 || this.password_renew.length < 8) {
 								errors = "Độ dài mật khẩu phải lớn hơn hoặc bằng 8 kí tự.";
 								txtpassword_new.setBorder(new TextBubbleBorder(Color.RED, 2, 4, 0));
@@ -234,7 +237,8 @@ public class ChangeUser {
 									txtpassword_renew.setBorder(new TextBubbleBorder(Color.RED, 2, 4, 0));
 								} else {
 									Document filter = new Document("__User__", Login.cache_Login);
-									Document newValue = new Document("__Password__", String.valueOf(this.password_new));
+									Document newValue = new Document("__Password__",
+											extend.MD5(String.valueOf(this.password_new)));
 									data.UpdateRecord(filter, newValue);
 									errors = "Đổi mật khẩu thành công.";
 									frame.setAlwaysOnTop(false);
