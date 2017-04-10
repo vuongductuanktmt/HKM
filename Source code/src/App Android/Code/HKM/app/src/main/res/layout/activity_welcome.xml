@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/desgin"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#6637474F"
+
+        tools:context="com.example.nghia.hkm.WelcomeActivity">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/progressBar"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/loading_animation"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            />
+
+        <!--don't need to set style for your progress bar-->
+        <!--set android:indeterminate="true" to auto spin circle progress-->
+        <!--create xml file of loading animation and set it to indeterminateDrawable="@drawable/loading_animation"-->
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/loginbutton_bg"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/backgroundSearch"
+            android:layout_alignTop="@+id/login_button"
+            android:layout_marginTop="100dp"
+            android:text="Skip for now"
+            android:textStyle="italic"
+            android:id="@+id/tvSkip" />
+    </RelativeLayout>
+</LinearLayout>

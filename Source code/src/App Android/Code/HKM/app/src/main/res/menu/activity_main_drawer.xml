@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Thông tin các sản phẩm">
+            <menu>
+        <item
+            android:id="@+id/spdyt"
+            android:title="50 Sản phẩm được yêu thích" />
+        <item
+            android:id="@+id/spbcn"
+            android:title="50 Sản phẩm bán chạy nhất" />
+        <item
+            android:id="@+id/spdmnn"
+            android:title="50 Sản phẩm được mua nhiều nhất" />
+        <item
+            android:id="@+id/spdnnt"
+            android:title="50 Sản phẩm được nhiều người thích" />
+            </menu>
+        </item>
+    </group>
+</menu>

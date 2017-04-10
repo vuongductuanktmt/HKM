@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">HKM</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="tim_tin_tuc">Tìm kiếm tin tức</string>
+    <string name="drawer_open">Mo menu</string>
+    <string name="drawer_close">Dong menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="facebook_app_id">911647105641069</string>
+    <string name="action_settings">Settings</string>
+    <string name="des">Một chiếc UAV gắn lựu đạn của phiến quân Nhà nước Hồi giáo tự xưng (IS) đã bị quân đội Iraq bắn hạ gần Mosul.</string>
+    <string name="title">UAV mang lựu đạn của IS bị bắn hạ</string>
+    <string name="title_activity_main2">UserProfile</string>
+</resources>
