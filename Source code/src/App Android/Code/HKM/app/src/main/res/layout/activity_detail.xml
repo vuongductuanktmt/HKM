@@ -13,4 +13,5 @@
         android:layout_height="wrap_content"
         android:text="Nội dung tin tức"
         android:textSize="50sp"/>
+
 </RelativeLayout>
