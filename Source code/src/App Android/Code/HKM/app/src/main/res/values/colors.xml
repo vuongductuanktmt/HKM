@@ -7,4 +7,5 @@
     <color name="backgroundSearch">#FFF</color>
     <color name="backgroundColor">#f67122</color>
     <color name="colorGrey">#CCC</color>
+    <color name="colorRED">#FF000B</color>
 </resources>

@@ -6,16 +6,16 @@
             <menu>
         <item
             android:id="@+id/spdyt"
-            android:title="50 Sản phẩm được yêu thích" />
+            android:title="Top 50 Sản phẩm được yêu thích" />
         <item
             android:id="@+id/spbcn"
-            android:title="50 Sản phẩm bán chạy nhất" />
+            android:title="Top 50 Sản phẩm bán chạy nhất" />
         <item
             android:id="@+id/spdmnn"
-            android:title="50 Sản phẩm được mua nhiều nhất" />
+            android:title="Top 50 Sản phẩm được mua nhiều nhất" />
         <item
             android:id="@+id/spdnnt"
-            android:title="50 Sản phẩm được nhiều người thích" />
+            android:title="Top 50 Sản phẩm được nhiều người thích" />
             </menu>
         </item>
     </group>

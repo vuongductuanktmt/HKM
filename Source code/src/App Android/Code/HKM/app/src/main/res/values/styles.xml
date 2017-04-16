@@ -25,7 +25,7 @@
         <item name="android:textSize">17sp</item>
     </style>
 
-    <style name="SearchViewMy">
-        <item name="android:textSize">33sp</item>
+    <style name="MySearchView">
+        <item name="android:textSize">10sp</item>
     </style>
 </resources>
