@@ -61,4 +61,41 @@ public class Client extends WebSocketClient {
 		Date date = new Date();
 		System.out.println(dateFormat.format(date) + ": " + message);
    }
-}
+	public  static String   SendtoServer(String Dataxx )throws URISyntaxException, IOException {
+		//	String uri = "ws://104.198.199.19:9999";
+			String uri = "ws://ec2-54-169-80-188.ap-southeast-1.compute.amazonaws.com:6969";
+		
+			Client client = new Client(new URI(uri), new Draft_10());
+			client.connect();
+			//BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
+			while (true) {
+			//	String in = sysin.readLine();
+				if (Dataxx.equals("exit")) {
+					client.close();
+					System.out.println("Closed connection");
+					break;
+				}
+				else {
+					try {
+						 client.send(Dataxx);
+						 break;
+					} catch (Exception e) {
+						
+					}
+				}
+			}    
+			//sleep To receive data from Client
+		while (true)
+		{	     try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				if(client.getMessage()!=null){
+				//System.out.println(client.getMessage());
+				return client.getMessage();
+				}
+				
+		}
+}}
