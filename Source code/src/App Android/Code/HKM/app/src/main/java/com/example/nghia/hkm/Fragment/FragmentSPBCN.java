@@ -13,11 +13,11 @@ import com.example.nghia.hkm.R;
  * Created by Nghia on 12/04/2017.
  */
 
-public class FragmentSPBCN extends Fragment{
+public class FragmentSPBCN extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_spbcn,container,false);
+        View view=inflater.inflate(R.layout.fragment_spbcn,container,false);
         return view;
     }
 }

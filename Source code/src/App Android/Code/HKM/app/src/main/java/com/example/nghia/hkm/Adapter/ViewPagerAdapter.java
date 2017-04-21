@@ -13,7 +13,9 @@ import com.example.nghia.hkm.Fragment.FragmentSPDYT;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter{
+//import com.example.nghia.hkm.Fragment.FragmentSPDYT;
+
+public class ViewPagerAdapter extends FragmentPagerAdapter {
     List<Fragment> fragments = new ArrayList<Fragment>();
     List<String> titleFragment = new ArrayList<String>();
 
@@ -22,17 +24,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
         FragmentSPDYT fragmentSPDYT = new FragmentSPDYT();
         fragmentSPDYT.setArguments(bundle);
         fragments.add(fragmentSPDYT);
+        FragmentSPBCN fragmentSPBCN = new FragmentSPBCN();
+        fragmentSPBCN.setArguments(bundle);
         fragments.add(new FragmentSPBCN());
         fragments.add(new FragmentSPDNNT());
         fragments.add(new FragmentSPDMNN());
 
 
-
-        titleFragment.add("Nổi bật");
-        titleFragment.add("Mới");
-        titleFragment.add("Khuyến mãi");
-       titleFragment.add("Bán chạy");
-       titleFragment.add("Xu hướng");
+       titleFragment.add("Top 50 yêu thích");
+      titleFragment.add("Top 50 bán chạy ");
+      titleFragment.add("Top 50 nhiều người tích");
+      titleFragment.add("Top 50 được mua nhiều");
+//       titleFragment.add("Xu hướng");
 
     }
 
@@ -45,7 +48,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
     public int getCount() {
         return fragments.size();
     }
-
     @Override
     public CharSequence getPageTitle(int position) {
         return titleFragment.get(position);

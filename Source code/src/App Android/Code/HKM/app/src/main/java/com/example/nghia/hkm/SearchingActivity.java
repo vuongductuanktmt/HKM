@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.widget.EditText;
 
 public class SearchingActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -23,18 +22,10 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (!query.equals("")) {
-            Log.d("Search", "onQueryTextSubmit 1 " + query);
-            searchView.clearFocus(); //TODO: fix onQueryTextSubmit called twice
-            // On real device the method just called once
-            Log.d("Search", "onQueryTextSubmit 2 " + query);
-        }
         return true;
     }
-
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d("Search", "onQueryTextChange " + newText);
         return false;
     }
 }

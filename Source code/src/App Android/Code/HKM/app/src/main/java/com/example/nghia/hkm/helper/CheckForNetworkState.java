@@ -5,13 +5,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class CheckForNetworkState {
-    Context mContext;
+    static Context mContext;
 
     public CheckForNetworkState(Context context) {
         mContext = context;
     }
 
-    public boolean isNetworkAvailable() {
+    public static boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle drawerToggle;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-//    AccessToken mAccessToken;
+    //    AccessToken mAccessToken;
 //    String facebookUserName;
     boolean isUserLogin = false;
-//    String loginMenuTitle;
+    //    String loginMenuTitle;
 //    String facebookPictureUrl;
     FragmentManager fragmentManager;
-//    private TabLayout tabLayout;
+    //    private TabLayout tabLayout;
     private ViewPager viewPager;
 
     @Override
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         //FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_main);
+        //
         control();
         setSupportActionBar(toolbar);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -64,11 +65,11 @@ public class MainActivity extends AppCompatActivity
         btSearch.setOnClickListener(this);
         fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        ViewPagerAdapter viewPagerAdapter =new ViewPagerAdapter(getSupportFragmentManager(),bundle);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), bundle);
         viewPager.setAdapter(viewPagerAdapter);
         tab.setupWithViewPager(viewPager);
-
     }
+
     private void control() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tab = (TabLayout) findViewById(R.id.tab);
@@ -78,18 +79,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
         btSearch = (Button) findViewById(R.id.btSearch);
         btSearch.setOnClickListener(this);
-
-
     }
-//    private void changeViewPagerPage(final int position) {
-//        viewPager.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                viewPager.setCurrentItem(position, true);
-//            }
-//        }, 100);
-//    }
 
+    private void changeViewPagerPage(final int position) {
+        viewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(position, true);
+            }
+        }, 100);
+    }
 
 
     @Override
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity
             dialog.show();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -162,34 +162,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch (id){
-            case R.id.spdyt:
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                FragmentSPDYT fragmentSPDYT= new FragmentSPDYT();
-//                transaction.replace(R.id.content_layout,fragmentSPDYT);
-//                transaction.commit();
-                ;break;
-            case R.id.spbcn:
-//                FragmentTransaction transaction1 = fragmentManager.beginTransaction();
-//                FragmentSPBCN fragmentSPBCN= new FragmentSPBCN();
-//                transaction1.replace(R.id.content_layout,fragmentSPBCN);
-//                transaction1.commit();
-                ;break;
-            case R.id.spdmnn:
-//                FragmentTransaction transaction2 = fragmentManager.beginTransaction();
-//                FragmentSPDMNN fragmentSPDMNN= new FragmentSPDMNN();
-//                transaction2.replace(R.id.content_layout,fragmentSPDMNN);
-//                transaction2.commit();
-                ;break;
-            case R.id.spdnnt:
-//                FragmentTransaction transaction3 = fragmentManager.beginTransaction();
-//                FragmentSPDNNT fragmentSPDNNT= new FragmentSPDNNT();
-//                transaction3.replace(R.id.content_layout,fragmentSPDNNT);
-//                transaction3.commit();
-                ;break;
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if (id == R.id.spdyt)
+            changeViewPagerPage(0);
+        else if (id == R.id.spbcn)
+            changeViewPagerPage(1);
+        else if (id == R.id.spdmnn)
+            changeViewPagerPage(2);
+        else if (id == R.id.spdnnt)
+            changeViewPagerPage(3);
+        drawerLayout.openDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
