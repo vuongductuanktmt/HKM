@@ -46,9 +46,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             holder = new CommentViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_comments_showinfoproduct, parent, false);
             // set up the ViewHolder
-            holder.imgView = (ImageView) convertView.findViewById(R.id.imgview);
-            holder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-            holder.etCmt= (EditText) convertView.findViewById(R.id.etCmt);
+//            holder.imgView = (ImageView) convertView.findViewById(R.id.imgview);
+//            holder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
+//            holder.etCmt= (EditText) convertView.findViewById(R.id.etCmt);
             this.configData();
             //store the holder with the view
             convertView.setTag(holder);
