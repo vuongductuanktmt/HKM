@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.nghia.hkm.Fragment.FragmentSPBCN;
-import com.example.nghia.hkm.Fragment.FragmentSPDMNN;
-import com.example.nghia.hkm.Fragment.FragmentSPDNNT;
+//import com.example.nghia.hkm.Fragment.FragmentSPDMNN;
+//import com.example.nghia.hkm.Fragment.FragmentSPDNNT;
 import com.example.nghia.hkm.Fragment.FragmentSPDYT;
 
 import java.util.ArrayList;
@@ -27,14 +27,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         FragmentSPBCN fragmentSPBCN = new FragmentSPBCN();
         fragmentSPBCN.setArguments(bundle);
         fragments.add(new FragmentSPBCN());
-        fragments.add(new FragmentSPDNNT());
-        fragments.add(new FragmentSPDMNN());
+//        fragments.add(new FragmentSPDNNT());
+//        fragments.add(new FragmentSPDMNN());
 
 
-       titleFragment.add("Top 50 yêu thích");
-      titleFragment.add("Top 50 bán chạy ");
-      titleFragment.add("Top 50 nhiều người tích");
-      titleFragment.add("Top 50 được mua nhiều");
+       titleFragment.add("Khuyến mãi");
+      titleFragment.add("sự kiện ");
+//      titleFragment.add("Top 50 nhiều người tích");
+//      titleFragment.add("Top 50 được mua nhiều");
 //       titleFragment.add("Xu hướng");
 
     }

@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.nghia.hkm.Class.Products;
 import com.example.nghia.hkm.ExpandableListViewImp;
 import com.example.nghia.hkm.R;
 import com.example.nghia.hkm.model.News;
@@ -18,11 +19,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     ExpandableListViewImp mListener;
     Context mContext;
-    List<News> mNewsList;
+    List<Products> mNewsList;
     NewsViewHolder holder;
     ExpandableListView expandableListView;
 
-    public ExpandableAdapter(Context context, List<News> list, ExpandableListView exp) {
+    public ExpandableAdapter(Context context, List<Products> list, ExpandableListView exp) {
         mContext = context;
         mNewsList = list;
         expandableListView = exp;
@@ -53,9 +54,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public long getGroupId(int parentPos) {
-        return mNewsList.get(parentPos).getId();
+    public long getGroupId(int groupPosition) {
+        return 0;
     }
+
+//    @Override
+//    public long getGroupId(int parentPos) {
+//        return mNewsList.get(parentPos).get__Title__();
+//    }
 
     @Override
     public long getChildId(int i, int i1) {
@@ -74,8 +80,8 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
             holder = new NewsViewHolder();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             viewGroupParent = inflater.inflate(R.layout.fragment_spdyt, viewGroup, false);
-            holder.tvDes = (TextView) viewGroupParent.findViewById(R.id.tvDes);
-            holder.imgMiniPic = (ImageView) viewGroupParent.findViewById(R.id.imgPic);
+//            holder.tvDes = (TextView) viewGroupParent.findViewById(R.id.tvDes);
+//            holder.imgMiniPic = (ImageView) viewGroupParent.findViewById(R.id.imgPic);
             holder.btMore = (ImageView) viewGroupParent.findViewById(R.id.btMore);
             viewGroupParent.setTag(holder);
         holder.btMore.setOnClickListener(new View.OnClickListener() {

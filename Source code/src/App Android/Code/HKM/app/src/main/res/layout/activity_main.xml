@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/backgroundColor"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         android:scrollbarSize="50dp"
         app:tabSelectedTextColor="@color/backgroundSearch"
         app:tabTextAppearance="@style/capfalse"
