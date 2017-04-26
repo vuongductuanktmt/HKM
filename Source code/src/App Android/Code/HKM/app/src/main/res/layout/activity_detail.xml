@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.nghia.hkm.DetailActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.example.nghia.hkm.CustomWebview
+            android:id="@+id/wv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.example.nghia.hkm.CustomWebview>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/wv_progress_bar"
+                android:layout_gravity="center"
+                style="@android:style/Widget.Holo.ProgressBar.Large"
+                />
+            <TextView
+                android:id="@+id/wv_loading_text"
+                android:layout_width="wrap_content"
+                android:text="Loading...."
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </FrameLayout>
+</RelativeLayout>

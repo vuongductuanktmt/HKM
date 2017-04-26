@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imgMiniPic"
+            android:layout_marginTop="5dp"
+            android:layout_width="116dp"
+            android:layout_height="65dp"
+            android:src="@drawable/ic_deal"
+            android:layout_marginLeft="1dp"/>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDescription"
+                android:text="@string/des"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:id="@+id/linear1"
+                android:layout_weight="0.27">
+
+                <TextView
+                    android:id="@+id/giamoi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="80.000đ"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorRED"/>
+
+                <TextView
+                    android:id="@+id/giacu"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/strike_text"
+                    android:textSize="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:background="@drawable/ic_heart"/>
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="13dp"
+                    android:textSize="11dp"
+                    android:text=" 1000"
+                    android:id="@+id/textView" />
+
+                <ImageView
+                    android:id="@+id/view"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:background="@drawable/ic_view"/>
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="15dp"
+                    android:textSize="11dp"
+                    android:text=" 1000"/>
+                <ImageView
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/selector_background_search"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/more"
+
+                    android:id="@+id/btMore" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

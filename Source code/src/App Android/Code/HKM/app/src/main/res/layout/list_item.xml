@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:selectableItemBackground">
+        <ImageView
+            android:id="@+id/imgV"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_below="@id/imgV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <TextView android:id="@+id/datetime"
+           android:layout_marginLeft="10dp"
+            android:layout_width="150dp"
+            android:layout_height="15dp"
+            android:layout_below="@+id/imgV"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="10dp"/>
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="15dp"
+                android:background="@drawable/ic_heart"
+                />
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:id="@+id/loveC"/>
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_view"/>
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:id="@+id/viewC"/>
+            <Button
+                android:layout_marginLeft="45dp"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:id="@+id/btMore"
+                android:background="@drawable/more"/>
+        </LinearLayout>
+            <!--android:background="@color/colorGrey"/>-->
+
+        <TextView android:id="@+id/title"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Name"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imgV"
+            android:layout_toEndOf="@+id/imgV" />
+            <!--android:background="@color/colorGrey" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:id="@+id/viewC"-->
+            <!--android:layout_marginRight="19dp"-->
+            <!--android:layout_marginEnd="19dp"-->
+            <!--android:layout_above="@+id/linear"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"/>-->
+            <!--android:background="@color/colorGrey"/>-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:layout_above="@+id/linear"-->
+            <!--android:layout_toLeftOf="@+id/viewC"-->
+            <!--android:layout_toStartOf="@+id/viewC"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:background="@drawable/ic_view"-->
+            <!--android:id="@+id/imageView2" />-->
+
+        <!--android:background="@color/colorGrey"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:id="@+id/giamoi"-->
+            <!--android:layout_below="@+id/title"-->
+            <!--android:layout_toRightOf="@+id/imageView"-->
+            <!--android:layout_toEndOf="@+id/imageView"-->
+            <!--android:textColor="@color/colorRED"-->
+            <!--android:textSize="20dp"/>-->
+        <!--&lt;!&ndash;android:background="@color/colorGrey"&ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:text=" Giá mới: "-->
+            <!--android:textSize="15dp"-->
+            <!--android:id="@+id/textView3"-->
+            <!--android:layout_above="@+id/imageView"-->
+            <!--android:layout_toLeftOf="@+id/loveC"-->
+            <!--android:layout_toStartOf="@+id/loveC" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_below="@+id/title"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:id="@+id/giacu"-->
+            <!--android:textSize="12dp"/>-->
+            <!--&lt;!&ndash;android:background="@color/colorGrey"&ndash;&gt;-->
+
+
+        <!--<TextView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_above="@+id/viewC"-->
+            <!--android:layout_toRightOf="@+id/giamoi"-->
+            <!--android:layout_toEndOf="@+id/giamoi"-->
+            <!--android:text="  Giá cũ:"/>-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:background="@drawable/ic_heart"-->
+            <!--android:layout_marginRight="13dp"-->
+            <!--android:layout_marginEnd="13dp"-->
+            <!--android:id="@+id/imageView"-->
+            <!--android:layout_above="@+id/linear"-->
+            <!--android:layout_toLeftOf="@+id/loveC"-->
+            <!--android:layout_toStartOf="@+id/loveC" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/imgV"
+            android:layout_below="@+id/title"
+            android:layout_above="@id/linear"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/giamoi"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/colorRED"
+                android:textSize="15dp"/>
+            <TextView
+                android:textSize="12dp"
+                android:id="@+id/giacu"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:id="@+id/loveC"-->
+            <!--android:layout_above="@+id/linear"-->
+            <!--android:layout_centerHorizontal="true" />-->
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
