@@ -5,8 +5,12 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -22,6 +26,7 @@ import App.HKM.MongoDB;
 import App.HKM.Data.Category;
 import App.HKM.Data.CategoryParents;
 import App.HKM.Data.Event;
+import App.HKM.Data.Error;
 import App.HKM.Data.Products;
 import ServerManagerData.ClientToServer;
 import ServerManagerData.ServerToClient;
@@ -29,10 +34,11 @@ import ServerManagerData.ServerToClient;
 public class ModelView {
 	public static int pageNumer__Selling = 1, pageNumer__Event = 1, pageNumer__Promotion = 1;
 	public static Object[][] rows = null;
-	public String[] columnNamesProducts = { "STT", "Title", "Link", "Current Price", "Old Price", "Date Insert",
-			"Status", "Delete" };
+	public String[] columnNamesProducts = { "STT", "Title", "Current Price", "Old Price", "Date Insert",
+			"Status" };
 	public String[] columnNamesCategoryParent = { "STT", "Name","SumCategoryChild"};
 	public String[] columnNamesCategoryChild = { "STT", "Name", "Parent"};
+	public String[] columnNamesError = { "STT", "Error", "HomePage","Date"};
 	public static String[] rows_parent;
 	public DefaultListModel<Event> ListEvents(String Search)
 			throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
@@ -104,6 +110,7 @@ public class ModelView {
 
 	public void ReloadJlist(JList list, DefaultListModel<?> model, String Status, String Search)
 			throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
+		System.out.println("Clear");
 		model.clear();
 		try {
 			System.out.println(list.getName());
@@ -129,20 +136,21 @@ public class ModelView {
 
 	public void LoadTableProduct() throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
 		ArrayList<Products> products = new ArrayList<Products>();
-		ClientToServer CtS = new ClientToServer("get_all_record","admin", "TableWebInfo", "null", "null", "__Title__", 1);
+		ClientToServer CtS = new ClientToServer("get_all_record","admin", "TableWebInfo", "__Delete__", "false", "__Title__", 1);
 		String data = CtS.getValueRequests();
 		products = ServerToClient.GetListArrayProducts(data);
-		rows = new Object[products.size()][8];
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm  (dd-MM-yyyy)", new Locale("vi", "VN"));
+		timeFormat.setTimeZone(TimeZone.getTimeZone("+7GMT"));
+		rows = new Object[products.size()][6];
 		for (int i = 0; i < products.size(); i++) {
 			rows[i][0] = i + 1;
 			rows[i][1] = products.get(i).get__Title__();
-			rows[i][2] = products.get(i).get__Href__();
-			rows[i][3] = products.get(i).get__CurrentPrice__();
-			rows[i][4] = (products.get(i).get__OldPrice__() != null)
+			rows[i][2] = products.get(i).get__CurrentPrice__();
+			rows[i][3] = (products.get(i).get__OldPrice__() != null)
 					? "<html><b><span><strike>" + products.get(i).get__OldPrice__() + "</strike><span></b></html>" : "";
-			rows[i][5] = products.get(i).get__DateInsert__();
-			rows[i][6] = products.get(i).get__Status__();
-			rows[i][7] = products.get(i).is__Delete__();
+			String gettime = timeFormat.format(products.get(i).get__DateInsert__());
+			rows[i][4] = gettime;
+			rows[i][5] = products.get(i).get__Status__();
 		}
 	}
 
@@ -151,17 +159,18 @@ public class ModelView {
 		ClientToServer CtS = new ClientToServer("get_all_record","admin", "TableWebInfo", "__Delete__", "true", "__Title__", 1);
 		String data = CtS.getValueRequests();
 		products = ServerToClient.GetListArrayProducts(data);
-		rows = new Object[products.size()][8];
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm  (dd-MM-yyyy)", new Locale("vi", "VN"));
+		timeFormat.setTimeZone(TimeZone.getTimeZone("+7GMT"));
+		rows = new Object[products.size()][6];
 		for (int i = 0; i < products.size(); i++) {
 			rows[i][0] = i + 1;
 			rows[i][1] = products.get(i).get__Title__();
-			rows[i][2] = products.get(i).get__Href__();
-			rows[i][3] = products.get(i).get__CurrentPrice__();
-			rows[i][4] = (products.get(i).get__OldPrice__() != null)
+			rows[i][2] = products.get(i).get__CurrentPrice__();
+			rows[i][3] = (products.get(i).get__OldPrice__() != null)
 					? "<html><b><span><strike>" + products.get(i).get__OldPrice__() + "</strike><span></b></html>" : "";
-			rows[i][5] = products.get(i).get__DateInsert__();
-			rows[i][6] = products.get(i).get__Status__();
-			rows[i][7] = products.get(i).is__Delete__();
+			String gettime = timeFormat.format(products.get(i).get__DateInsert__());
+			rows[i][4] = gettime;
+			rows[i][5] = products.get(i).get__Status__();
 		}
 	}
 
@@ -174,8 +183,39 @@ public class ModelView {
 		for (int i = 0; i < category_parent.size(); i++) {
 			rows[i][0] = i + 1;
 			rows[i][1] = category_parent.get(i).get__CategoryParentName__();
-			rows[i][2] = 0;
+			 CtS = new ClientToServer("get_count_record","admin", "TableWebInfo", "__Category__.__CategoryParentName__","",category_parent.get(i).get__CategoryParentName__(), 0);
+			 data = CtS.getValueRequests();
+			rows[i][2] = Integer.parseInt(data);
 
+		}
+	}
+	public void LoadCategoryChilds() throws URISyntaxException, IOException{
+		ArrayList<Category> category_child = new ArrayList<Category>();
+		ClientToServer CtS = new ClientToServer("get_distinct","admin", "TableWebInfo","null","null","__Category__.__CategoryChildLink__","__Category__",0);
+			String request = CtS.getValueRequests();
+			category_child = ServerToClient.GetListArrayCategoryChilds(request);
+			rows = new Object[category_child.size()][3];
+			for (int i = 0; i < category_child.size(); i++) {
+				rows[i][0] = i + 1;
+				rows[i][1] = category_child.get(i).get__Title__();
+				rows[i][2] = category_child.get(i).get__CategoryParentName__();
+			}
+			
+	}
+	public void LoadError() throws URISyntaxException, IOException{
+		ArrayList<Error> error = new ArrayList<Error>();
+		ClientToServer CtS = new ClientToServer("get_error","admin", "Error","null","null","null","null",0);
+		String request = CtS.getValueRequests();
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm  (dd-MM-yyyy)", new Locale("vi", "VN"));
+		timeFormat.setTimeZone(TimeZone.getTimeZone("+7GMT"));
+		error =  ServerToClient.GetListArrayError(request);
+		rows = new Object[error.size()][4];
+		for (int i = 0; i < error.size(); i++) {
+			rows[i][0] = i + 1;
+			rows[i][1] = error.get(i).getContent();
+			rows[i][2] = error.get(i).getHomePage();
+			String gettime = timeFormat.format(error.get(i).getDateError());
+			rows[i][3] = gettime;
 		}
 	}
 

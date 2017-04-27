@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-
 import App.HKM.Login;
 import App.HKM.main;
 import App.HKM.Data.Products;
@@ -39,32 +38,39 @@ public class ProductsRenderer extends JPanel implements ListCellRenderer<Product
 	private MouseAdapter handler;
 
 	public ProductsRenderer() {
-		setLayout(new BorderLayout(10, 10));
-		JPanel panelText = new JPanel(new GridLayout(0, 1));
-		panelText.setBorder(new EmptyBorder(0, 0, 0, 0));
-		JPanel panelImage = new JPanel();
-		panelImage.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panelImage.add(lbIcon);
-		panelText.add(lbName);
-		panelText.add(lbPrice);
-		panelText.add(lbhashtag);
-		panelText.add(lbextend);
-		add(panelImage, BorderLayout.WEST);
-		add(panelText, BorderLayout.CENTER);
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				setLayout(new BorderLayout(10, 10));
+				JPanel panelText = new JPanel(new GridLayout(0, 1));
+				panelText.setBorder(new EmptyBorder(0, 0, 0, 0));
+				JPanel panelImage = new JPanel();
+				panelImage.setBorder(new EmptyBorder(0, 0, 0, 0));
+				panelImage.add(lbIcon);
+				panelText.add(lbName);
+				panelText.add(lbPrice);
+				panelText.add(lbhashtag);
+				panelText.add(lbextend);
+				add(panelImage, BorderLayout.WEST);
+				add(panelText, BorderLayout.CENTER);
+			}
+		});
+		thread.start();
 	}
-
+	@Override
 	public Component getListCellRendererComponent(JList<? extends Products> list, Products product, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		ImageIcon icon;
 		try {
-			if(Login.cache_load_image.equals("true")){
-			icon = new ImageIcon(new URL(product.get__LinkImage__()));
-			Image image = icon.getImage();
-			// reduce by 50%
-			image = image.getScaledInstance(170, 100, Image.SCALE_SMOOTH);
-			icon.setImage(image);
-			lbIcon.setIcon(icon);
-			}else{
+			if (Login.cache_load_image.equals("true")) {
+				icon = new ImageIcon(new URL(product.get__LinkImage__()));
+				Image image = icon.getImage();
+				// reduce by 50%
+				System.out.println("LoadImage");
+				image = image.getScaledInstance(110, 100, Image.SCALE_SMOOTH);
+				icon.setImage(image);
+				lbIcon.setIcon(icon);
+			} else {
 				lbIcon.setIcon(null);
 			}
 		} catch (MalformedURLException e) {
@@ -89,14 +95,15 @@ public class ProductsRenderer extends JPanel implements ListCellRenderer<Product
 		}
 		lbName.setText("<html><span style='color: #ffffff; background-color: #6A5ACD;border-radius: 4px;'>__"
 				+ product.get__Title__() + "__</span></html>");
-			if (!product.get__CurrentPrice__().equals(product.get__OldPrice__())) {
-				lbPrice.setText("<html><p><span style='color:red'>" + product.get__CurrentPrice__() + "&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ "</span><span><strike>" + product.get__OldPrice__() + "</strike><span></p></html>");
-			} else {
-				lbPrice.setText(
-						"<html><p><span style='color:red'>" + product.get__CurrentPrice__() + "  " + "</span></p></html>");
-			}
-		
+		if (!product.get__CurrentPrice__().equals(product.get__OldPrice__())) {
+			lbPrice.setText(
+					"<html><p><span style='color:red'>" + product.get__CurrentPrice__() + "&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ "</span><span><strike>" + product.get__OldPrice__() + "</strike><span></p></html>");
+		} else {
+			lbPrice.setText(
+					"<html><p><span style='color:red'>" + product.get__CurrentPrice__() + "  " + "</span></p></html>");
+		}
+
 		String Hashtag = "";
 		for (int i = 0; i < product.get__Category__().size(); i++) {
 			Extend color = new Extend();
@@ -112,9 +119,10 @@ public class ProductsRenderer extends JPanel implements ListCellRenderer<Product
 		}
 
 		lbextend.setText("<html><p><img src='" + main.class.getResource("/App/HKM/image/Like_20px.png")
-				+ "' alt='embarassed' /><span style='color: #ff0000;'><strong>"+product.get__LoveCount__()+"</strong></span>&nbsp;&nbsp; <img src='"
-				+ main.class.getResource("/App/HKM/image/Visible_20px.png")
-				+ "' alt='laughing' /><span style='color: #008080;'>"+product.get__ViewCount__()+"</span></p></html>");
+				+ "' alt='embarassed' /><span style='color: #ff0000;'><strong>" + product.get__LoveCount__()
+				+ "</strong></span>&nbsp;&nbsp; <img src='" + main.class.getResource("/App/HKM/image/Visible_20px.png")
+				+ "' alt='laughing' /><span style='color: #008080;'>" + product.get__ViewCount__()
+				+ "</span></p></html>");
 		lbhashtag.setText("<html><p><strong><span>" + Hashtag + "</span></strong></p></html>");
 		lbName.setOpaque(true);
 		lbextend.setOpaque(true);
@@ -155,6 +163,7 @@ public class ProductsRenderer extends JPanel implements ListCellRenderer<Product
 				// TODO: handle exception
 			}
 		}
+
 		private void setHoverIndex(int index) {
 			if (hoverIndex == index)
 				return;

@@ -86,13 +86,13 @@ public class Theme {
 		comboBoxChangeTheme.setBackground(SystemColor.inactiveCaption);
 		comboBoxChangeTheme.setForeground(Color.BLUE);
 		comboBoxChangeTheme.setModel(new DefaultComboBoxModel(new String[] {"METAL", "FAST", "SMART", "ACRYL", "AERO", "BERNSTEIN", "ALUMINIUM", "MCWIN", "MINT", "HIFI", "NOIRE", "LUNA"}));
-		comboBoxChangeTheme.setSelectedItem(data.GetOneRecordString(new Document("__Name__","Theme"), "__Value__"));
+		comboBoxChangeTheme.setSelectedItem(ModifyXMLFile.getTheme());
 		comboBoxChangeTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
 					MsgBox message = new MsgBox(null, "Do you want change?", true);
 					if(message.isOk){
-						data.UpdateRecord(new Document("__Name__","Theme"), new Document("__Value__",comboBoxChangeTheme.getSelectedItem()));
+						ModifyXMLFile.ChangeTheme(comboBoxChangeTheme.getSelectedItem().toString());
 						Login.cache_load_image = (String) comboBoxChangeTheme.getSelectedItem();
 						info.setText("Bạn cần logout lại để thấy thay đổi.");
 					}else{
@@ -105,10 +105,10 @@ public class Theme {
 		lblLoadImage.setFont(new Font("Tahoma", Font.BOLD, 12));
 		JComboBox comboBoxLoadImage = new JComboBox();
 		comboBoxLoadImage.setModel(new DefaultComboBoxModel(new String[] {"true", "false"}));
-			comboBoxLoadImage.setSelectedItem(data.GetOneRecordString(new Document("__Name__","Image"), "__Value__"));
+			comboBoxLoadImage.setSelectedItem(ModifyXMLFile.getloadimage());
 		comboBoxLoadImage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					data.UpdateRecord(new Document("__Name__","Image"), new Document("__Value__",comboBoxLoadImage.getSelectedItem()));
+					ModifyXMLFile.Changeloadimage(comboBoxLoadImage.getSelectedItem().toString());
 					Login.cache_load_image = (String) comboBoxLoadImage.getSelectedItem();
 					if(Login.cache_load_image.equals("true")){
 						info.setText("Bật chế độ hiển thị ảnh.");
@@ -134,7 +134,7 @@ public class Theme {
 		spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Login.page_size = (int) spinner.getValue();
-				data.UpdateRecord(new Document("__Name__","PageSize"), new Document("__Value__",Login.page_size));
+				ModifyXMLFile.Changepagesize(String.valueOf(Login.page_size));
 				info.setText("Bạn cần logout lại để thấy thay đổi.");
 			}
 		});

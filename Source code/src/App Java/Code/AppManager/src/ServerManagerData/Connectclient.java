@@ -4,10 +4,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.java_websocket.drafts.Draft_10;
 
+import App.HKM.ModifyXMLFile;
+
 
 public class Connectclient {
 	public  static String   SendtoServer(String Dataxx )throws URISyntaxException, IOException {
-		String uri = "ws://104.198.199.19:9999";
+		String uri = "ws://"+ModifyXMLFile.gethost()+":"+ModifyXMLFile.getport();
 		Client client = new Client(new URI(uri), new Draft_10());
 		client.connect();
 		//BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );

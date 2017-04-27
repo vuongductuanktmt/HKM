@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.jws.Oneway;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.swing.JLabel;
@@ -35,15 +37,21 @@ public class EventRenderer extends JPanel implements ListCellRenderer<Event> {
 	private MouseAdapter handler;
 
 	public EventRenderer() {
-		setLayout(new BorderLayout(10, 10));
-		JPanel panelText = new JPanel(new GridLayout(0, 1));
-		JPanel panelImage = new JPanel();
-		panelImage.add(lbIcon);
-		panelText.add(lbName);
-		panelText.add(lbHref);
-		panelText.add(lbextend);
-		add(panelImage, BorderLayout.WEST);
-		add(panelText, BorderLayout.CENTER);
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				setLayout(new BorderLayout(10, 10));
+				JPanel panelText = new JPanel(new GridLayout(0, 1));
+				JPanel panelImage = new JPanel();
+				panelImage.add(lbIcon);
+				panelText.add(lbName);
+				panelText.add(lbHref);
+				panelText.add(lbextend);
+				add(panelImage, BorderLayout.WEST);
+				add(panelText, BorderLayout.CENTER);
+			}
+		});
+		thread.start();
 	}
 
 	@Override
@@ -51,14 +59,14 @@ public class EventRenderer extends JPanel implements ListCellRenderer<Event> {
 			boolean isSelected, boolean cellHasFocus) {
 		ImageIcon icon;
 		try {
-			if(Login.cache_load_image.equals("true")){
-			icon = new ImageIcon(new URL(event.get__LinkImage__()));
-			Image image = icon.getImage();
-			// reduce by 50%
-			image = image.getScaledInstance(150, 70, Image.SCALE_SMOOTH);
-			icon.setImage(image);
-			lbIcon.setIcon(icon);
-			}else{
+			if (Login.cache_load_image.equals("true")) {
+				icon = new ImageIcon(new URL(event.get__LinkImage__()));
+				Image image = icon.getImage();
+				// reduce by 50%
+				image = image.getScaledInstance(150, 90, Image.SCALE_SMOOTH);
+				icon.setImage(image);
+				lbIcon.setIcon(icon);
+			} else {
 				lbIcon.setIcon(null);
 			}
 		} catch (MalformedURLException e) {

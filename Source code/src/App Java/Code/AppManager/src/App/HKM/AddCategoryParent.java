@@ -2,9 +2,11 @@ package App.HKM;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
@@ -45,6 +47,7 @@ import ServerManagerData.ClientToServer;
  * @author www.codejava.net
  *
  */
+@SuppressWarnings("serial")
 public class AddCategoryParent extends JFrame implements ActionListener {
 
 	private JTable table;
@@ -100,7 +103,20 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 		table.setComponentPopupMenu(popupMenu);
 
 		table.addMouseListener(new TableMouseListener(table));
+		table.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				try {
+	                Point p = e.getPoint();
+	                int row = table.rowAtPoint(p);
+	                int col = table.columnAtPoint(p);
+	                table.setToolTipText(String.valueOf(table.getModel().getValueAt(row, col)));
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 
+			}
+		});
 		// adds the table to the frame
 		add(new JScrollPane(table));
 
@@ -111,11 +127,11 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 	}
 
 	public class MyTable extends JTable {
-		private Color evenBackColor = new Color(95, 158, 160);
+		private Color evenBackColor = new Color(72,61,139);
 		private Color evenTextColor = Color.white;
-		private Color oddBackColor = new Color(46, 139, 87);
+		private Color oddBackColor = new Color(106,90,205);
 		private Color oddTextColor = Color.white;
-		private Color rolloverBackColor = new Color(128, 128, 128);
+		private Color rolloverBackColor = new Color(186,85,211);
 		private Color rolloverTextColor = Color.white;
 
 		private int rolloverRowIndex = -1;
@@ -158,7 +174,10 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 				c.setForeground(new Color(255, 215, 0));
 			}
 			if (column == 2) {
-				c.setForeground(new Color(139, 69, 19));
+				c.setForeground(Color.RED);
+			}
+			if (column == 1) {
+				c.setForeground(Color.WHITE);
 			}
 			return c;
 		}
@@ -191,11 +210,23 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 			} catch (UnknownHostException | MessagingException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} else if (menu == menuItemRemoveAll) {
 			try {
 				removeAllRows();
 			} catch (UnknownHostException | MessagingException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -233,7 +264,7 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 							 CtS = new ClientToServer("create","admin", "CategoryParents", "__CategoryParentName__", textField.getText(), "null", 0);
 							String data = CtS.getValueRequests();
 							tableModel.addRow(new Object[] { tableModel.getRowCount() + 1, textField.getText(), 0 });
-							lblNewLabel_1.setText("Insert Success.");
+							lblNewLabel_1.setText("Insert Succses.");
 							lblNewLabel_1.setForeground(Color.GREEN);
 						} else {
 							lblNewLabel_1.setText("Parent Exists.");
@@ -277,61 +308,27 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 		add.setVisible(true);
 	}
 
-	private void removeCurrentRow() throws AddressException, UnknownHostException, MessagingException, InterruptedException {
+	private void removeCurrentRow() throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
 		MsgBox message = new MsgBox(null, "Do you want delete?", true);
 		int selectedRow = table.getSelectedRow();
 		String parent_name = (String) tableModel.getValueAt(selectedRow, 1);
 		if (message.isOk && !parent_name.equals("Chung")) {
 			tableModel.removeRow(selectedRow);
-			MongoDB data_parents = new MongoDB("CategoryParents");
-			MongoDB data_childs = new MongoDB("CategoryChild");
-			MongoDB data_products = new MongoDB("TableWebInfo");
-			List<Document> childs = new ArrayList<>();
-			childs = data_childs.Query(new Document("__CategoryParentName__", parent_name), new Document());
-			for (Document child : childs) {
-				List<Document> products = new ArrayList<>();
-				data_products.UpdateRecordAll(new Document("__LinkTitle__", child.getString("__LinkTitle__")),
-						new Document("__CheckNew__", true));
-			}
-			data_parents.RemoveRecordOne(new Document("__CategoryParentName__", parent_name));
-			data_childs.UpdateRecordAll(new Document("__CategoryParentName__", parent_name),
-					new Document("__CategoryParentName__", "Chung"));
+			ClientToServer CtS = new ClientToServer("remove_category_parent","admin","CategoryParents","__CategoryParentName__",parent_name,"null","null",0);
+			 CtS.getValueRequests();
 		}
 	}
 
-	private void removeAllRows() throws AddressException, UnknownHostException, MessagingException, InterruptedException {
+	private void removeAllRows() throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
 		MsgBox message = new MsgBox(null, "Do you want delete all?", true);
 		if (message.isOk) {
 			int rowCount = tableModel.getRowCount();
 			for (int i = 0; i < rowCount; i++) {
 				tableModel.removeRow(0);
 			}
-			MongoDB data_parents = new MongoDB("CategoryParents");
-			MongoDB data_childs = new MongoDB("CategoryChild");
-			MongoDB data_products = new MongoDB("TableWebInfo");
-			tableModel.addRow(new Object[] { 1, "Chung",
-					data_childs.CountRecords(new Document("__CategoryParentName__", "Chung")) });
-			List<Document> parents = new ArrayList<>();
-			parents = data_parents.Query(new Document(), new Document());
-			for (Document parent : parents) {
-				if (!parent.getString("__CategoryParentName__").equals("Chung")) {
-					List<Document> childs = new ArrayList<>();
-					childs = data_childs.Query(
-							new Document("__CategoryParentName__", parent.getString("__CategoryParentName__")),
-							new Document());
-					data_childs.UpdateRecordAll(
-							new Document("__CategoryParentName__", parent.getString("__CategoryParentName__")),
-							new Document("__CategoryParentName__", "Chung"));
-					for (Document child : childs) {
-						data_products.UpdateRecordAll(new Document("__LinkTitle__", child.getString("__LinkTitle__")),
-								new Document("__CheckNew__", true));
-					}
-					data_parents.RemoveRecordOne(
-							new Document("__CategoryParentName__", parent.getString("__CategoryParentName__")));
-				}
-
-			}
-
+			ClientToServer CtS = new ClientToServer("remove_all_category_parent","admin","CategoryParents","null","null","null","null",0);
+			 CtS.getValueRequests();
+			 tableModel.addRow(new Object[] { 1, "Chung",0});
 		}
 	}
 
@@ -352,7 +349,6 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 			textField.setOpaque(true);
 			textField.setBorder(new TextBubbleBorder(new Color(135, 206, 235), 2, 4, 0));
 			textField.addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
 
 					try {
@@ -364,11 +360,8 @@ public class AddCategoryParent extends JFrame implements ActionListener {
 							ClientToServer CtS = new ClientToServer("check_exist_record","admin","CategoryParents", "__CategoryParentName__",textField.getText(),"null",0);
 							String request = CtS.getValueRequests();
 							if (!request.equals("true")) {
-								CtS = new ClientToServer("update","admin","CategoryParents", "__CategoryParentName__",parent_name,"__CategoryParentName__",textField.getText(),0);
+								CtS = new ClientToServer("update_categary_parent","admin","CategoryParents", "__CategoryParentName__",parent_name,"__CategoryParentName__",textField.getText(),0);
 								 request = CtS.getValueRequests();
-								//MongoDB data_childs = new MongoDB("CategoryChild");
-								//data_childs.UpdateRecordAll(new Document("__CategoryParentName__", parent_name),
-										//new Document("__CategoryParentName__", textField.getText()));
 								tableModel.setValueAt(textField.getText(), selectedRow, 1);
 								lblNewLabel_1.setText("Edit Success.");
 								lblNewLabel_1.setForeground(Color.GREEN);

@@ -117,11 +117,12 @@ public class main {
 	/**
 	 * @throws MessagingException
 	 * @throws AddressException
-	 * @throws InterruptedException 
-	 * @throws IOException 
-	 * @throws URISyntaxException 
+	 * @throws InterruptedException
+	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
-	private void initialize() throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
+	private void initialize()
+			throws AddressException, MessagingException, InterruptedException, URISyntaxException, IOException {
 		ModelView modelview = new ModelView();
 		Extend extend = new Extend();
 		frame = new JFrame();
@@ -150,21 +151,17 @@ public class main {
 		int max_selling;
 		int max_event;
 		int max_promotion;
-		ClientToServer CtS = new ClientToServer("max_page", Login.page_size,
-				"admin", "TableWebInfo", txtSearch.getText(), "Event");
+		ClientToServer CtS = new ClientToServer("max_page", Login.page_size, "admin", "TableWebInfo",
+				txtSearch.getText(), "Event");
 		extend.CheckCursor(First_Event_Btn, Previous_Event_Btn, Next_Event_Btn, Last_Event_Btn,
-				max_event = Integer.parseInt(CtS.getValueRequests()),
-				ModelView.pageNumer__Event);
-		 CtS = new ClientToServer("max_page", Login.page_size,
-				"admin", "TableWebInfo", txtSearch.getText(), "Selling");
+				max_event = Integer.parseInt(CtS.getValueRequests()), ModelView.pageNumer__Event);
+		CtS = new ClientToServer("max_page", Login.page_size, "admin", "TableWebInfo", txtSearch.getText(), "Selling");
 		extend.CheckCursor(First_Selling_Btn, Previous_Selling_Btn, Next_Selling_Btn, Last_Selling_Btn,
-				max_selling = Integer.parseInt(CtS.getValueRequests()),
-				ModelView.pageNumer__Selling);
-		 CtS = new ClientToServer("max_page", Login.page_size,
-				"admin", "TableWebInfo", txtSearch.getText(), "Promotion");
+				max_selling = Integer.parseInt(CtS.getValueRequests()), ModelView.pageNumer__Selling);
+		CtS = new ClientToServer("max_page", Login.page_size, "admin", "TableWebInfo", txtSearch.getText(),
+				"Promotion");
 		extend.CheckCursor(First_Promotion_Btn, Previous_Promotion_Btn, Next_Promotion_Btn, Last_Promotion_Btn,
-				max_promotion = Integer.parseInt(CtS.getValueRequests()),
-				ModelView.pageNumer__Promotion);
+				max_promotion = Integer.parseInt(CtS.getValueRequests()), ModelView.pageNumer__Promotion);
 
 		JMenu mnSetting = new JMenu("Setting");
 		mnSetting.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Gears_20px.png")));
@@ -266,7 +263,18 @@ public class main {
 		JMenuItem mntmCategoryChilds = new JMenuItem("Category Childs");
 		mntmCategoryChilds.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Ok_20px_3.png")));
 		mnCategory.add(mntmCategoryChilds);
-
+		mntmCategoryChilds.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ModelView modelview = new ModelView();
+				try {
+					modelview.LoadCategoryChilds();
+					new AddCategoryChild(modelview.columnNamesCategoryChild, modelview.rows, "Manager Category Childs");
+				} catch (URISyntaxException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		JMenuItem mntmShop = new JMenuItem("Shop");
 		mntmShop.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Shopping Bag_20px.png")));
 		mnView_1.add(mntmShop);
@@ -324,9 +332,21 @@ public class main {
 		mntmEdit_1.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Edit Property_20px.png")));
 		mnNotification.add(mntmEdit_1);
 
-		JMenuItem mntmAdd_1 = new JMenuItem("Add");
-		mntmAdd_1.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Add Property_20px.png")));
+		JMenuItem mntmAdd_1 = new JMenuItem("Error");
+		mntmAdd_1.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Close Window_20px.png")));
 		mnNotification.add(mntmAdd_1);
+		mntmAdd_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ModelView modelview = new ModelView();
+				try {
+					modelview.LoadError();
+					new ListError(modelview.columnNamesError, modelview.rows, "List Error");
+				} catch (URISyntaxException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		JMenu mnView = new JMenu("View");
 		mnView.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Customize View_20px.png")));
@@ -352,7 +372,8 @@ public class main {
 					// start application
 					// modelview.LoadTableProduct(columnNames,data);
 					modelview.LoadTableProduct();
-					new TableData("Table Manage", modelview.columnNamesProducts, modelview.rows, false);
+					new TableProducts(modelview.columnNamesProducts, modelview.rows, "Manager Products");
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -377,26 +398,13 @@ public class main {
 				// modelview.LoadTableProduct(columnNames,data);
 				try {
 					modelview.LoadTableProductRecycle();
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (AddressException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (MessagingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
+					new TableProductsRecycle(modelview.columnNamesProducts, modelview.rows,
+							"Manager recover deleted products");
+				} catch (MessagingException | InterruptedException | URISyntaxException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				new TableData("Recycle", modelview.columnNamesProducts, modelview.rows, true);
+
 			}
 		});
 		mntmRecycel.setIcon(new ImageIcon(main.class.getResource("/App/HKM/image/Trash_20px.png")));
@@ -471,19 +479,17 @@ public class main {
 					e.printStackTrace();
 				}
 				extend.CheckCursor(First_Selling_Btn, Previous_Selling_Btn, Next_Selling_Btn, Last_Selling_Btn,
-						max_selling,
-						ModelView.pageNumer__Selling);
+						max_selling, ModelView.pageNumer__Selling);
 			}
 		});
-		spinner_selling.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(
-				max_selling),new Integer(1)));
+		spinner_selling.setModel(
+				new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max_selling), new Integer(1)));
 		spinner_selling.setBackground(SystemColor.activeCaption);
 		spinner_selling.setForeground(SystemColor.activeCaption);
 
 		JSpinner spinner_promotion = new JSpinner();
-		spinner_promotion.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(
-				max_promotion),
-				new Integer(1)));
+		spinner_promotion.setModel(
+				new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max_promotion), new Integer(1)));
 		spinner_promotion.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				ModelView.pageNumer__Promotion = (int) spinner_promotion.getValue();
@@ -499,19 +505,16 @@ public class main {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				extend.CheckCursor(First_Promotion_Btn, Previous_Promotion_Btn,
-						Next_Promotion_Btn, Last_Promotion_Btn, max_promotion,
-						ModelView.pageNumer__Promotion);
+				extend.CheckCursor(First_Promotion_Btn, Previous_Promotion_Btn, Next_Promotion_Btn, Last_Promotion_Btn,
+						max_promotion, ModelView.pageNumer__Promotion);
 			}
 		});
 		spinner_promotion.setForeground(SystemColor.activeCaption);
 		spinner_promotion.setBackground(SystemColor.activeCaption);
 
 		JSpinner spinner_event = new JSpinner();
-		spinner_event.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1),
-				new Integer(
-						max_event),
-				new Integer(1)));
+		spinner_event.setModel(
+				new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max_event), new Integer(1)));
 		spinner_event.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				ModelView.pageNumer__Event = (int) spinner_event.getValue();
@@ -527,8 +530,7 @@ public class main {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				extend.CheckCursor(First_Event_Btn, Previous_Event_Btn, Next_Event_Btn, Last_Event_Btn,
-						max_event,
+				extend.CheckCursor(First_Event_Btn, Previous_Event_Btn, Next_Event_Btn, Last_Event_Btn, max_event,
 						ModelView.pageNumer__Event);
 			}
 		});
@@ -561,7 +563,7 @@ public class main {
 			public void mouseClicked(MouseEvent e) {
 				if (ModelView.pageNumer__Promotion != 1) {
 					ModelView.pageNumer__Promotion--;
-					spinner_selling.setValue(ModelView.pageNumer__Promotion);
+					spinner_promotion.setValue(ModelView.pageNumer__Promotion);
 					try {
 						modelview.ReloadJlist(list_promotion, model_promotion, "Promotion", txtSearch.getText());
 					} catch (MessagingException | InterruptedException e1) {
@@ -744,7 +746,7 @@ public class main {
 						e1.printStackTrace();
 					}
 					//
- catch (URISyntaxException e1) {
+					catch (URISyntaxException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IOException e1) {
@@ -885,7 +887,6 @@ public class main {
 		model_event = modelview.ListEvents(txtSearch.getText());
 		list_event = new JList<Event>(model_event);
 		EventRenderer renderer_event = new EventRenderer();
-		renderer_event = new EventRenderer();
 		list_event.setCellRenderer(renderer_event);
 		list_event.addMouseListener(renderer_event.getHandler(list_event));
 		list_event.addMouseMotionListener(renderer_event.getHandler(list_event));
@@ -922,18 +923,17 @@ public class main {
 			public void mouseMoved(MouseEvent e) {
 				try {
 					JList<?> l = (JList<?>) e.getSource();
-					l.setToolTipText(
-							list_event.getModel().getElementAt(list_event.locationToIndex(e.getPoint())).get__Title__());
+					l.setToolTipText(list_event.getModel().getElementAt(list_event.locationToIndex(e.getPoint()))
+							.get__Title__());
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-				
+
 			}
 		});
 		model_promotion = modelview.ListProducts("Promotion", txtSearch.getText());
 		list_promotion = new JList<Products>(model_promotion);
 		ProductsRenderer renderer_promotion = new ProductsRenderer();
-		renderer_promotion = new ProductsRenderer();
 		list_promotion.setCellRenderer(renderer_promotion);
 		list_promotion.addMouseListener(renderer_promotion.getHandler(list_promotion));
 		list_promotion.addMouseMotionListener(renderer_promotion.getHandler(list_promotion));
@@ -984,7 +984,6 @@ public class main {
 		System.out.println(txtSearch.getText());
 		list_selling = new JList<Products>(model_selling);
 		ProductsRenderer renderer_selling = new ProductsRenderer();
-		renderer_selling = new ProductsRenderer();
 		list_selling.setCellRenderer(renderer_selling);
 		list_selling.addMouseListener(renderer_selling.getHandler(list_selling));
 		list_selling.addMouseMotionListener(renderer_selling.getHandler(list_selling));
@@ -1037,19 +1036,15 @@ public class main {
 					ModelView.pageNumer__Event = 1;
 					ModelView.pageNumer__Selling = 1;
 					ModelView.pageNumer__Promotion = 1;
-					extend.CheckCursor(First_Event_Btn,
-							Previous_Event_Btn, Next_Event_Btn, Last_Event_Btn,max_event,
+					extend.CheckCursor(First_Event_Btn, Previous_Event_Btn, Next_Event_Btn, Last_Event_Btn, max_event,
 							ModelView.pageNumer__Event);
 					extend.CheckCursor(First_Selling_Btn, Previous_Selling_Btn, Next_Selling_Btn, Last_Selling_Btn,
-							max_selling,
-							ModelView.pageNumer__Selling);
+							max_selling, ModelView.pageNumer__Selling);
 					extend.CheckCursor(First_Promotion_Btn, Previous_Promotion_Btn, Next_Promotion_Btn,
-							Last_Promotion_Btn, max_promotion,
-							ModelView.pageNumer__Promotion);
+							Last_Promotion_Btn, max_promotion, ModelView.pageNumer__Promotion);
 					if (max_selling != 0) {
 						spinner_selling.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1),
-								new Integer(max_selling),
-								new Integer(1)));
+								new Integer(max_selling), new Integer(1)));
 					} else {
 						spinner_selling.setModel(
 								new SpinnerNumberModel(new Integer(0), new Integer(0), new Integer(0), new Integer(0)));
@@ -1057,8 +1052,7 @@ public class main {
 					}
 					if (max_promotion != 0) {
 						spinner_promotion.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1),
-								new Integer(max_promotion),
-								new Integer(1)));
+								new Integer(max_promotion), new Integer(1)));
 					} else {
 						spinner_promotion.setModel(
 								new SpinnerNumberModel(new Integer(0), new Integer(0), new Integer(0), new Integer(0)));
@@ -1066,8 +1060,7 @@ public class main {
 					}
 					if (max_event != 0) {
 						spinner_event.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1),
-								new Integer(max_event),
-								new Integer(0)));
+								new Integer(max_event), new Integer(0)));
 					} else {
 						spinner_event.setModel(
 								new SpinnerNumberModel(new Integer(0), new Integer(0), new Integer(0), new Integer(0)));

@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-
+import java.net.UnknownHostException;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
@@ -19,24 +19,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import org.bson.Document;
-
 import App.HKM.Extend.Extend;
-import App.HKM.Extend.Message;
-import App.HKM.Extend.MsgBox;
 import App.HKM.Extend.TextBubbleBorder;
 import ServerManagerData.ClientToServer;
 import ServerManagerData.Security;
-
 import javax.swing.ImageIcon;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.swing.DropMode;
 import java.awt.Toolkit;
-import java.awt.event.MouseMotionAdapter;
 
 public class Login {
 	public static String cache_Login;
@@ -46,6 +38,7 @@ public class Login {
 	JFrame frame;
 	public JTextField txt_user;
 	public JPasswordField txt_password;
+
 	/**
 	 * Launch the application.
 	 */
@@ -76,10 +69,9 @@ public class Login {
 	 */
 	public Login() throws ClassNotFoundException, InstantiationException, IllegalAccessException,
 			UnsupportedLookAndFeelException, IOException, AddressException, MessagingException, InterruptedException {
-		MongoDB data_extend = new MongoDB("Extend");
-		cache_load_image = data_extend.GetOneRecordString(new Document("__Name__", "Image"), "__Value__");
-		cache_theme = data_extend.GetOneRecordString(new Document("__Name__", "Theme"), "__Value__");
-		page_size = data_extend.GetOneRecordInt(new Document("__Name__", "PageSize"), "__Value__");
+		cache_load_image = ModifyXMLFile.getloadimage();
+		cache_theme = ModifyXMLFile.getTheme();
+		page_size = Integer.valueOf(ModifyXMLFile.getpagesize());
 		Extend extend = new Extend();
 		extend.ChangeTheme(cache_theme);
 		initialize();
@@ -177,8 +169,8 @@ public class Login {
 							txt_user.setBorder(new TextBubbleBorder(Color.RED, 2, 4, 0));
 						} else {
 							try {
-								ClientToServer CtS = new ClientToServer("first_login","admin", user, extend.Token(password),
-										"");
+								ClientToServer CtS = new ClientToServer("first_login", "admin", user,
+										extend.Token(password), "");
 								String request = CtS.getValueRequests();
 								if (!request.equals("false")) {
 									Security security = new Security();
@@ -188,10 +180,24 @@ public class Login {
 										lblThngBo.setText("Đăng nhập thành công vui lòng đợi...");
 										lblThngBo.setForeground(new Color(51, 102, 153));
 									}
-									 cache_Login = user;
-									 main window1 = new main();
-									window1.frame.setVisible(true);
-									frame.dispose();
+									cache_Login = user;
+									Thread thread = new Thread(new Runnable() {
+										@Override
+										public void run() {
+											main window1;
+											try {
+												window1 = new main();
+												window1.frame.setVisible(true);
+												frame.dispose();
+											} catch (UnknownHostException | InterruptedException e) {
+												// TODO Auto-generated catch
+												// block
+												e.printStackTrace();
+											}
+
+										}
+									});
+									thread.start();
 								} else {
 									lblThngBo.setText("Tài khoản hoặc mật khẩu sai.");
 								}
@@ -231,8 +237,8 @@ public class Login {
 							txt_user.setBorder(new TextBubbleBorder(Color.RED, 2, 4, 0));
 						} else {
 							try {
-								ClientToServer CtS = new ClientToServer("first_login","admin", user, extend.Token(password),
-										"");
+								ClientToServer CtS = new ClientToServer("first_login", "admin", user,
+										extend.Token(password), "");
 								String request = CtS.getValueRequests();
 								if (!request.equals("false")) {
 									Security security = new Security();
@@ -242,16 +248,25 @@ public class Login {
 										lblThngBo.setText("Đăng nhập thành công vui lòng đợi...");
 										lblThngBo.setForeground(new Color(51, 102, 153));
 									}
-									// cache_Login = user;
-									// main window1 = new main();
-									// window1.frame.setVisible(true);
-									// frame.dispose();
-								} else if(request.equals("Locked")){
-									MsgBox message = new MsgBox(null, "Account Locked Do you want Exit?", true);
-								if(message.isOk){
-									System.exit(0);
-								}
-								}else{
+									cache_Login = user;
+									Thread thread = new Thread(new Runnable() {
+										@Override
+										public void run() {
+											main window1;
+											try {
+												window1 = new main();
+												window1.frame.setVisible(true);
+												frame.dispose();
+											} catch (UnknownHostException | InterruptedException e) {
+												// TODO Auto-generated catch
+												// block
+												e.printStackTrace();
+											}
+
+										}
+									});
+									thread.start();
+								} else {
 									lblThngBo.setText("Tài khoản hoặc mật khẩu sai.");
 								}
 							} catch (Exception e1) {
