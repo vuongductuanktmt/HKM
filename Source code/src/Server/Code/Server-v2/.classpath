@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="src/Server/HKM/java-websocket-1.3.0.jar"/>
+	<classpathentry kind="lib" path="src/Server/HKM/mongo-java-driver-3.4.2.jar"/>
+	<classpathentry kind="lib" path="src/Server/HKM/javax.mail.jar"/>
+	<classpathentry kind="lib" path="src/Server/HKM/json-20160810.jar"/>
+	<classpathentry kind="lib" path="src/Server/HKM/tyrus-client-cli-1.1.jar"/>
+	<classpathentry kind="lib" path="src/Crawler/jsoup-1.10.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
