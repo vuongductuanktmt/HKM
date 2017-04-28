@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Created-By: ant
-Specified-By: JTattooDemo.jarContent
-Main-Class: com.jtattoo.demo.app.JTattooDemo
-

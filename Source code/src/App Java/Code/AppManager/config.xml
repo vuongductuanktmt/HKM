@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><employeeDetails>
-    <employee id="0001">
-	<loadimage>false</loadimage>
-        <pagesize>10</pagesize>
-        <theme>LUNA</theme>
-	<host>130.211.149.139</host>
-	<port>6969</port>
-    </employee>   
-</employeeDetails>
